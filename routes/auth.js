@@ -10,18 +10,22 @@ const router = express.Router();
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 
 const magicLogin = new MagicLoginStrategy({
-    secret: 'keyboard cat',
-    callbackUrl: '/login/callback',
+    secret: process.env.JWT_SECRET,
+    callbackUrl: process.env.AUTH_CALLBACK,
     sendMagicLink: async (destination, href) => {
-        const link = 'http://localhost:3000/login/callback';
-        const msg = {
-            to: destination,
-            from: process.env.EMAIL,
-            subject: 'Sign in NE',
-            text: 'Hola Click the link\r\n\r\n' + href,
-            html: 'Hola Click the link\r\n\r\n' + href,
-        };
-        await sendgrid.send(msg);
+        try {
+            const msg = {
+                to: destination,
+                from: process.env.EMAIL,
+                subject: 'Sign in NE',
+                text: 'Hola Click the link\r\n\r\n' + href,
+                html: 'Hola Click the link\r\n\r\n' + href,
+            };
+            await sendgrid.send(msg);
+        } catch (error) {
+            // TODO handle the error
+            console.log(error);
+        }
     },
     verify: async (payload, callback) => {
         try {
@@ -34,15 +38,17 @@ const magicLogin = new MagicLoginStrategy({
                     const newUser = await db.sequelize.models.User.create({
                         email: payload.destination,
                         displayName: payload.displayName,
-                        active: 0
+                        active: 1
                     });
                     return callback(null, newUser.dataValues);
                 } catch (error) {
+                    console.log(error);
                     return callback(error);
                 }
             }
             return callback(null, dbUser.dataValues);
         } catch (error) {
+            console.log(error);
             return callback(error);
         }
     }
@@ -52,14 +58,15 @@ passport.serializeUser((user, done) => {
     done(JSON.stringify(user));
 });
 
-//passport.deserializeUser();
+passport.deserializeUser((user, done) => {
+    console.log('==>'. user)
+    done(JSON.stringify(user));
+});
 
 passport.use(magicLogin);
 
 router.post('/login/email', magicLogin.send);
 
-router.get('/login/callback', passport.authenticate('magiclogin', {
-    session: true
-}));
+router.get('/login/callback', passport.authenticate('magiclogin'));
 
 module.exports = router;
