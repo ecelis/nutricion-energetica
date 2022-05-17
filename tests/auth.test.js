@@ -9,9 +9,9 @@ const { User } = db.sequelize.models;
 describe('Test Authentication', () => {
     test('Authenticate new user', async () => {
         return request(app)
-            .post('/auth/login/email')
+            .post('/login/email')
             .send({
-                email: 'new@example.com',
+                destination: 'atest@celisdelafuente.net',
                 displayName: 'Pepito'
             })
             .set('Accept', 'application/json')

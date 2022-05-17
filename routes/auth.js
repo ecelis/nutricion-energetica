@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const passport = require('passport');
-const MagicLinkStrategy  = require('passport-magic-link').Strategy;
+const MagicLoginStrategy = require('passport-magic-login').default;
 const sendgrid = require('@sendgrid/mail');
 const db = require('../models');
 
@@ -9,60 +9,57 @@ const router = express.Router();
 
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 
-passport.use(new MagicLinkStrategy({
+const magicLogin = new MagicLoginStrategy({
     secret: 'keyboard cat',
-    userFields: ['email', 'displayName'],
-    tokenField: 'token',
-    verifyUserAfterToken: true
-}, function send(user, token) {
-    console.log('=====> send email')
-    const link = 'http://localhost:3000/login/email/verify?token=' + token;
-    const msg = {
-        to: user.email,
-        from: process.env.EMAIL,
-        subject: 'Sign in NE',
-        text: 'Hola Click the link\r\n\r\n' + link,
-        html: 'Hola Click the link\r\n\r\n' + link,
-    };
-    return sendgrid.send(msg);
-}, function verify(user) {
-    return new Promise(function(resolve, reject) {
+    callbackUrl: '/login/callback',
+    sendMagicLink: async (destination, href) => {
+        const link = 'http://localhost:3000/login/callback';
+        const msg = {
+            to: destination,
+            from: process.env.EMAIL,
+            subject: 'Sign in NE',
+            text: 'Hola Click the link\r\n\r\n' + href,
+            html: 'Hola Click the link\r\n\r\n' + href,
+        };
+        await sendgrid.send(msg);
+    },
+    verify: async (payload, callback) => {
         try {
-            const dbUser = db.sequelize.models.User.findOne({
-                where: { email: user.email }
+            const dbUser = await db.sequelize.models.User.findOne({
+                where: { email: payload.destination }
             });
-            console.log('====>', dbUser.toJSON())
-            if(!dbUser) {
+            
+            if(dbUser === null) {
                 try {
-                    const newUser = db.sequelize.models.User.create({
-                        email: user.email,
-                        displayName: user.displayName,
+                    const newUser = await db.sequelize.models.User.create({
+                        email: payload.destination,
+                        displayName: payload.displayName,
                         active: 0
                     });
-                    return resolve(newUser);
+                    return callback(null, newUser.dataValues);
                 } catch (error) {
-                    return reject(error);
+                    return callback(error);
                 }
             }
-            return resolve(dbUser);
+            return callback(null, dbUser.dataValues);
         } catch (error) {
-            return reject(error);
+            return callback(error);
         }
-    })
-}));
-
-router.get('/login', function(req, res, next) {
-    res.render('login')
+    }
 });
 
-router.post('/login/email', passport.authenticate('magiclink', {
-    action: 'acceptToken'
-}), function(req, res, next) {
-    res.send({success: true});
+passport.serializeUser((user, done) => {
+    done(JSON.stringify(user));
 });
 
-router.get('/login/email/verify', passport.authenticate('magiclink', {
-    action: 'acceptToken'
+//passport.deserializeUser();
+
+passport.use(magicLogin);
+
+router.post('/login/email', magicLogin.send);
+
+router.get('/login/callback', passport.authenticate('magiclogin', {
+    session: true
 }));
 
 module.exports = router;
