@@ -27,7 +27,7 @@ const magicLogin = new MagicLoginStrategy({
                 text: 'Hola Click the link\r\n\r\n' + urlBuilder(href),
                 html: 'Hola Click the link\r\n\r\n' + urlBuilder(href),
             };
-            console.log(msg)
+            
             await sendgrid.send(msg);
         } catch (error) {
             // TODO handle the error
