@@ -5,19 +5,37 @@ const app = require('../app');
 const { User } = db.sequelize.models;
 
 describe('Test User', () => {
-    test('CREATE', async () => {
+    test('CREATE not active coach', async () => {
         const jane = await User.create({
             email: 'jane@example.com',
             displayName: 'Jane Tarzan',
             active: false,
-            createdAt: new Date(),
-            updatedAt: new Date()
+            coach: true
         });
         expect(jane.displayName).toBe('Jane Tarzan');
     });
-    test('READ', async () => {
+    test('READ all users', async () => {
         const users = await User.findAll();
         expect(users[0].dataValues.displayName).toBe('Jane Tarzan');
+    });
+    test('CREATE trainee belongs to coach', async () => {
+        const coach = await User.create({
+            email: 'coach@example.com',
+            displayName: 'Super coach',
+            active: true,
+            coach: true
+        });
+        const trainee = await User.create({
+            email: 'trainee@example.com',
+            displayName: 'Pie Tierno',
+            active: true,
+            coach: false
+        });
+        // await coach.addTrainee(trainee);
+        // const result = await User.findOne({
+        //     where: { email: 'coach@example.com' },
+        //     include: Trainee
+        // })
     });
 });
 
@@ -29,8 +47,7 @@ describe('API User', () => {
                 email: 'john@example.com',
                 displayName: 'John',
                 active: false,
-                createdAt: new Date(),
-                updatedAt: new Date()
+                coach: false
             })
             .set('Accept', 'application/json')
             .then(res => {
