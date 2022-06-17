@@ -26,3 +26,17 @@ describe('Test Ingredient', () => {
         expect(result).toBe(true);
     });
 });
+
+describe('API Ingredient', () => {
+    test('POST Ingredient', () => {
+        return request(app)
+            .post('/ingredient')
+            .send({
+                name: 'Cheese'
+            })
+            .set('Accept', 'application/json')
+            .then(res => {
+                expect(res.statusCode).toBe(200);
+            });
+    });
+});
