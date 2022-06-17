@@ -7,6 +7,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
 var ingredientRouter = require('./routes/ingredient');
+var recipeRouter = require('./routes/recipe');
 
 var app = express();
 
@@ -20,5 +21,6 @@ app.use('/', indexRouter);
 app.use('/', authRouter);
 app.use('/users', usersRouter);
 app.use('/ingredient', ingredientRouter);
+app.use('/recipe', recipeRouter);
 
 module.exports = app;
