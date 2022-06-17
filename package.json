@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "rm database_test.sqlite ; NODE_ENV=test sequelize-cli db:migrate ; jest"
+    "test-env": "rm database_test.sqlite ; NODE_ENV=test nodemon",
+    "test": "jest"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.6.2",

@@ -10,13 +10,18 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.belongsToMany(models.User, { as: 'Coach',
+        foreignKey: 'CoachId', through: 'coaches_trainees' });
+        this.belongsToMany(models.User, { as: 'Trainee',
+        foreignKey: 'TraineeId', through: 'coaches_trainees' });
+      this.belongsToMany(models.Menu, { through: 'users_menus'});
     }
   }
   User.init({
     email: DataTypes.STRING,
     displayName: DataTypes.STRING,
-    active: DataTypes.BOOLEAN
+    active: DataTypes.BOOLEAN,
+    coach: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'User',
