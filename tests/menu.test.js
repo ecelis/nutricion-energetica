@@ -6,50 +6,42 @@ const { Menu, User } = db.sequelize.models;
 
 describe('Test Menu', () => {
     beforeAll(async () => {
-        try {
-            const coach = await User.create({
-                email: 'coach@example.com',
-                displayName: 'Super coach',
-                active: true,
-                coach: true
-            });
-            const trainee = await User.create({
-                email: 'trainee@example.com',
-                displayName: 'Pie Tierno',
-                active: true,
-                coach: false
-            });
-            return {coach: coach, trainee: trainee };
-        } catch (error) {
-            console.log(error)
-        }
+        const coach = await User.create({
+            email: 'coach@example.com',
+            displayName: 'Super coach',
+            active: true,
+            coach: true
+        });
+        const trainee = await User.create({
+            email: 'trainee@example.com',
+            displayName: 'Pie Tierno',
+            active: true,
+            coach: false
+        });
+        return {coach: coach, trainee: trainee };
     });
     test('CREATE Menu', async () => {
-        try {
-            const menu = await Menu.create({
-                title: 'Dia 4',
-                date: new Date('2022-06-19')
-            });
-            expect(menu.title).toBe('Dia 4');
-        } catch (error) { console.log(error) }
+        const menu = await Menu.create({
+            title: 'Dia 4',
+            date: new Date('2022-06-19')
+        });
+        expect(menu.title).toBe('Dia 4');
     });
     test('ADD Menu to User', async () => {
-        try {
-            const user = await User.findAll({ where: { email: 'coach@example.com' }});
-        
-            const menu = await Menu.create({
-                title: 'Dia 4',
-                date: new Date('2022-06-19')
-            });
-            await menu.addUser(user);
-            expect(menu.title).toBe('Dia 4');
-        } catch (error) { console.log(error) }
+        const coach = await User.findOne({
+            include: 'Coach', where: { email: 'coach@example.com' }});
+    
+        const menu = await Menu.create({
+            title: 'Dia 4',
+            date: new Date('2022-06-19')
+        });
+        await coach.addMenu(menu);
+        const result = await coach.hasMenu(menu);
+        expect(result).toBe(true);
     });
     test('READ Menu from Coach', async () => {
-        try {
-            const user = await User.findOne({ where: { email: 'coach@example.com' } });
-            const menu = await user.getMenus();
-            expect(menu[0].dataValues.title).toBe('Dia 4');
-        } catch (error) { console.log(error) }
+        const user = await User.findOne({ where: { email: 'coach@example.com' } });
+        const menu = await user.getMenus();
+        expect(menu[0].dataValues.title).toBe('Dia 4');
     });
 });

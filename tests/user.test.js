@@ -6,41 +6,35 @@ const { User } = db.sequelize.models;
 
 describe('Test User', () => {
     test('CREATE not active coach', async () => {
-        try {
-            const jane = await User.create({
-                email: 'jane@example.com',
-                displayName: 'Jane Tarzan',
-                active: false,
-                coach: true
-            });
-            expect(jane.displayName).toBe('Jane Tarzan');
-        } catch (error) { console.log(error); }
+        const jane = await User.create({
+            email: 'jane@example.com',
+            displayName: 'Jane',
+            active: false,
+            coach: true
+        });
+        expect(jane.displayName).toBe('Jane');
     });
     test('READ all users', async () => {
-        try {
-            const users = await User.findAll({ where: { displayName: 'Jane Tarzan'}});
-            expect(users[0].dataValues.displayName).toBe('Jane Tarzan');
-        } catch(error) { console.log(error); }
+        const users = await User.findAll({ where: { displayName: 'Jane'}});
+        expect(users[0].dataValues.displayName).toBe('Jane');
     });
     // TODO association between Coach and Trainee
     test('CREATE coach and trainee', async () => {
-        try {
-            const coach = await User.create({
-                email: 'coach1@example.com',
-                displayName: 'Tarzan',
-                active: false,
-                coach: true
-            });
-            const trainee = await User.create({
-                email: 'trainee1@example.com',
-                displayName: 'Jane',
-                active: false,
-                coach: true
-            });
-            await coach.addTrainee(trainee);
-            const result = await coach.hasTrainee(trainee);
-            expect(result).toBe(true);
-        } catch (error) { console.log (error); }
+        const coach = await User.create({
+            email: 'coach1@example.com',
+            displayName: 'Tarzan',
+            active: false,
+            coach: true
+        });
+        const trainee = await User.create({
+            email: 'trainee1@example.com',
+            displayName: 'Jane',
+            active: false,
+            coach: true
+        });
+        await coach.addTrainee(trainee);
+        const result = await coach.hasTrainee(trainee);
+        expect(result).toBe(true);
     });
 });
 
