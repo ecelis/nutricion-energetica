@@ -14,8 +14,13 @@ module.exports = {
       date: {
         type: Sequelize.DATE
       },
-      meal: {
-        type: Sequelize.INTEGER
+      CoachId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      TraineeId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
