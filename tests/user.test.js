@@ -23,6 +23,25 @@ describe('Test User', () => {
         } catch(error) { console.log(error); }
     });
     // TODO association between Coach and Trainee
+    test('CREATE coach and trainee', async () => {
+        try {
+            const coach = await User.create({
+                email: 'coach1@example.com',
+                displayName: 'Tarzan',
+                active: false,
+                coach: true
+            });
+            const trainee = await User.create({
+                email: 'trainee1@example.com',
+                displayName: 'Jane',
+                active: false,
+                coach: true
+            });
+            await coach.addTrainee(trainee);
+            const result = await coach.hasTrainee(trainee);
+            expect(result).toBe(true);
+        } catch (error) { console.log (error); }
+    });
 });
 
 describe('API User', () => {

@@ -10,8 +10,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsToMany(models.Menu, { through: 'users_menus'})
-      //this.hasMany(models.Menu)
+      this.belongsToMany(models.User, { as: 'Coach',
+        foreignKey: 'CoachId', through: 'coaches_trainees' });
+        this.belongsToMany(models.User, { as: 'Trainee',
+        foreignKey: 'TraineeId', through: 'coaches_trainees' });
+      this.belongsToMany(models.Menu, { through: 'users_menus'});
     }
   }
   User.init({
