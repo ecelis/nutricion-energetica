@@ -26,8 +26,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     ndbn: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        unique: true
+        allowNull: true  // TODO how to deal with the Nutrient Data Bank Number
+        // unique: true  // should be UNIQUE
     }
   }, {
     sequelize,

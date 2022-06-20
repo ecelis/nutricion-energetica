@@ -24,7 +24,7 @@ describe('API Category', () => {
     });
     test('POST Category', () => {
         return request(app)
-            .post('/category')
+            .post('/ingredient/category')
             .send({
                 description_en: 'Pizza', descripcion_es: 'Pizza', ndbn: 1002
             })
