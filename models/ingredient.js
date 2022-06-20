@@ -10,15 +10,30 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsTo(models.Category);
-      this.belongsToMany(models.Recipe, { through: 'recipes_ingredients'})
+      this.belongsTo(models.Category, {
+        onDelete: 'RESTRICT',
+        onUpdate: 'CASCADE'
+      });
+      this.belongsToMany(models.Recipe, {
+        through: 'recipes_ingredients',
+        onDelete: 'RESTRICT',
+        onUpdate: 'CASCADE'
+      });
     }
   }
   Ingredient.init({
-    name: {
+    description_en: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      allowNull: false
+    },
+    descripcion_es: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    ndbn: {
+        type: DataTypes.INTEGER,
+        allowNull: true  // TODO how to deal with the Nutrient Data Bank Number
+        // unique: true  // should be UNIQUE
     }
   }, {
     sequelize,

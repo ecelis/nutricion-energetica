@@ -11,10 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsToMany(models.User, { as: 'Coach',
-        foreignKey: 'CoachId', through: 'coaches_trainees' });
+        foreignKey: 'CoachId', through: 'coaches_trainees',
+        onDelete: 'RESTRICT',
+        onUpdate: 'RESTRICT'});
         this.belongsToMany(models.User, { as: 'Trainee',
-        foreignKey: 'TraineeId', through: 'coaches_trainees' });
-      this.belongsToMany(models.Menu, { through: 'users_menus'});
+        foreignKey: 'TraineeId', through: 'coaches_trainees',
+        onDelete: 'RESTRICT',
+        onUpdate: 'RESTRICT'});
+      this.belongsToMany(models.Menu, { through: 'users_menus',
+      onDelete: 'RESTRICT',
+      onUpdate: 'RESTRICT'});
     }
   }
   User.init({

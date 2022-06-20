@@ -7,14 +7,18 @@ const { Ingredient, Recipe } = db.sequelize.models;
 describe('Test Ingredient', () => {
     test('CREATE Ingredient', async () => {
         await Ingredient.create({
-            name: 'Coriander'
+            description_en: 'Coriander',
+            descripcion_es: 'Cilantro',
+            ndbn: 1006
         });
-        const result = await Ingredient.findOne({ where: { name: 'Coriander'} });
-        expect(result.name).toBe('Coriander');
+        const result = await Ingredient.findOne({ where: { description_en: 'Coriander'} });
+        expect(result.description_en).toBe('Coriander');
     });
     test('ADD ingredient to recipe', async () => {
         const ingredient = await Ingredient.create({
-            name: 'Garlic'
+            description_en: 'Garlic',
+            descripcion_es: 'Ajo',
+            ndbn: 1005
         });
         const recipe = await Recipe.create({
             title: 'Scrambled eggs',
@@ -32,7 +36,9 @@ describe('API Ingredient', () => {
         return request(app)
             .post('/ingredient')
             .send({
-                name: 'Cheese'
+                description_en: 'Cheese',
+                descripcion_es: 'Queso',
+                ndbn: 1001
             })
             .set('Accept', 'application/json')
             .then(res => {

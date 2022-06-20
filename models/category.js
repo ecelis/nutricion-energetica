@@ -10,24 +10,20 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-        this.hasMany(models.Ingredient);
+        this.hasMany(models.Ingredient, {
+          onDelete: 'RESTRICT',
+          onUpdate: 'CASCADE'
+        });
     }
   }
   Category.init({
     description_en: {
         type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
+        allowNull: false
     },
     descripcion_es: {
         type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
-    },
-    ndbn: {
-        type: DataTypes.INTEGER,
-        allowNull: true  // TODO how to deal with the Nutrient Data Bank Number
-        // unique: true  // should be UNIQUE
+        allowNull: false
     }
   }, {
     sequelize,

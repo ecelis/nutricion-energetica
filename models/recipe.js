@@ -10,8 +10,16 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsToMany(models.Menu, { through: 'menus_recipes'});
-      this.belongsToMany(models.Ingredient, { through: 'recipes_ingredients'});
+      this.belongsToMany(models.Menu, {
+        through: 'menus_recipes',
+        onDelete: 'RESTRICT',
+        onUpdate: 'CASCADE'
+      });
+      this.belongsToMany(models.Ingredient, {
+        through: 'recipes_ingredients',
+        onDelete: 'RESTRICT',
+        onUpdate: 'CASCADE'
+      });
     }
   }
   Recipe.init({

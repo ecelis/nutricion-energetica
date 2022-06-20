@@ -33,9 +33,9 @@ describe('Test Recipe', () => {
 describe('API Recipe', () => {
     beforeAll(async () => {
         const ingredient = await Ingredient.bulkCreate([
-            { name: 'Flour' },
-            { name: 'Honey' },
-            { name: 'Sugar'}
+            { description_en: 'Flour', descripcion_es: 'Harina', ndbn: 1007 },
+            { description_en: 'Honey', descripcion_es: 'Miel', ndbn: 1008 },
+            { description_en: 'Sugar', descripcion_es: 'Azucar', ndbn: 1009 }
         ]);
     });
     test('POST Recipe', () => {
