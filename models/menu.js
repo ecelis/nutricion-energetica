@@ -19,11 +19,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Menu.init({
-    title: DataTypes.STRING,
-    date: DataTypes.DATE
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    date: {
+      type: DataTypes.DATE,
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'Menu',
+    timestamps: false
   });
   return Menu;
 };

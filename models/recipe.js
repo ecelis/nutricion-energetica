@@ -15,12 +15,22 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Recipe.init({
-    title: DataTypes.STRING,
-    instructions: DataTypes.TEXT,
-    mealType: DataTypes.STRING
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    instructions: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    mealType: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'Recipe',
+    timestamps: false
   });
   return Recipe;
 };
