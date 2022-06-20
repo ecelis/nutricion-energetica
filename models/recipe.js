@@ -10,17 +10,35 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsToMany(models.Menu, { through: 'menus_recipes'});
+      this.belongsToMany(models.Menu, {
+        through: 'menus_recipes',
+        onDelete: 'RESTRICT',
+        onUpdate: 'CASCADE'
+      });
+      this.belongsToMany(models.Ingredient, {
+        through: 'recipes_ingredients',
+        onDelete: 'RESTRICT',
+        onUpdate: 'CASCADE'
+      });
     }
   }
   Recipe.init({
-    title: DataTypes.STRING,
-    ingredients: DataTypes.TEXT,
-    instructions: DataTypes.TEXT,
-    mealType: DataTypes.STRING
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    instructions: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    mealType: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'Recipe',
+    timestamps: false
   });
   return Recipe;
 };

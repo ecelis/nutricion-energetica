@@ -14,16 +14,31 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsToMany(models.User, { through: 'users_menus'});
-      this.belongsToMany(models.Recipe, { through: 'menus_recipes'});
+      this.belongsToMany(models.User, {
+        through: 'users_menus',
+        onDelete: 'RESTRICT',
+        onUpdate: 'CASCADE'
+      });
+      this.belongsToMany(models.Recipe, {
+        through: 'menus_recipes',
+        onDelete: 'RESTRICT',
+        onUpdate: 'CASCADE'
+      });
     }
   }
   Menu.init({
-    title: DataTypes.STRING,
-    date: DataTypes.DATE
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    date: {
+      type: DataTypes.DATE,
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'Menu',
+    timestamps: false
   });
   return Menu;
 };

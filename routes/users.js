@@ -12,7 +12,7 @@ router.post('/', async function(req, res, next) {
   const { User } = db.sequelize.models;
   const data = req.body;
   const user = await User.create(data);
-  res.send(user)
+  res.send(user);
 });
 
 module.exports = router;

@@ -11,17 +11,41 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsToMany(models.User, { as: 'Coach',
-        foreignKey: 'CoachId', through: 'coaches_trainees' });
+        foreignKey: 'CoachId', through: 'coaches_trainees',
+        onDelete: 'RESTRICT',
+        onUpdate: 'RESTRICT'});
         this.belongsToMany(models.User, { as: 'Trainee',
-        foreignKey: 'TraineeId', through: 'coaches_trainees' });
-      this.belongsToMany(models.Menu, { through: 'users_menus'});
+        foreignKey: 'TraineeId', through: 'coaches_trainees',
+        onDelete: 'RESTRICT',
+        onUpdate: 'RESTRICT'});
+      this.belongsToMany(models.Menu, { through: 'users_menus',
+      onDelete: 'RESTRICT',
+      onUpdate: 'RESTRICT'});
     }
   }
   User.init({
-    email: DataTypes.STRING,
-    displayName: DataTypes.STRING,
-    active: DataTypes.BOOLEAN,
-    coach: DataTypes.BOOLEAN
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true
+      }
+    },
+    displayName: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    active: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true
+    },
+    coach: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    }
   }, {
     sequelize,
     modelName: 'User',
