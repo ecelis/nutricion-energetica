@@ -44,3 +44,17 @@ nnpm run test
 .mode csv
 .import data/food.csv food
 ```
+
+## Deploy
+
+```
+az acr build --registry webhealthcoach --image api .
+```
+az acr update -n webhealthcoach --admin-enabled true
+```
+
+```az acr task create --registry webhealthcoach --name buildapi \
+    --image api \
+    --context https://github.com/ecelis/nutricion-energetica.git \
+    --file Dockerfile --git-access-token <github personla token>
+```
