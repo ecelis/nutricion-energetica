@@ -8,7 +8,7 @@ const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const db = {};
 
-const sequelize = new Sequelize(process.env.POSTGRES_DB,
+const sequelize = new Sequelize(process.env.POSTGRES_DB | process.env.POSTGRES_DBPROD,
   process.env.POSTGRES_USER, process.env.POSTGRES_PASSWORD,
   {
     host: process.env.POSTGRES_HOST,
