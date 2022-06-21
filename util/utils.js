@@ -1,9 +1,7 @@
 require('dotenv').config();
 
-const urlBuilder = function(href) {
-    if (process.env.PORT) {
-        return process.env.BASE_URL + ':' + process.env.PORT + href;
-    }
+const appUrlBuilder = function(href) {
+    return process.env.APP_URL + '?' + href.split('?')[1];
 }
 
-module.exports.urlBuilder = urlBuilder;
+module.exports.appUrlBuilder = appUrlBuilder;

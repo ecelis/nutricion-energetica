@@ -4,7 +4,7 @@ const passport = require('passport');
 const MagicLoginStrategy = require('passport-magic-login').default;
 const sendgrid = require('@sendgrid/mail');
 const db = require('../models');
-const {urlBuilder} = require('../util/utils');
+const {appUrlBuilder} = require('../util/utils');
 
 const router = express.Router();
 const {
@@ -19,13 +19,14 @@ const magicLogin = new MagicLoginStrategy({
     cookie: { secure: true },
     callbackUrl: AUTH_CALLBACK,
     sendMagicLink: async (destination, href) => {
+        console.log('=====>', destination);
         try {
             const msg = {
                 to: destination,
                 from: EMAIL,
                 subject: 'Sign in NE',
-                text: 'Hola Click the link\r\n\r\n' + urlBuilder(href),
-                html: 'Hola Click the link\r\n\r\n' + urlBuilder(href),
+                text: 'Hola Click the link\r\n\r\n' + appUrlBuilder(href),
+                html: 'Hola Click the link\r\n\r\n' + appUrlBuilder(href),
             };
             
             await sendgrid.send(msg);
