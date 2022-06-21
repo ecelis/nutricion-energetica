@@ -8,6 +8,13 @@ Requires a Sendgrid account
 
 ## Develop
 
+### PostgreSQL
+
+```
+docker run --name postgres -d -e POSTGRES_PASSWORD=1qaz \
+    -e POSTGRES_USER=whc  -e POSTGRES_DB=whc -p5432:5432 \
+    postgres
+```
 Copy `cp env.sample .env` and edit `.env` with proper values.
 
 Install and run with `nodemon`
