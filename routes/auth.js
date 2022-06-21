@@ -19,7 +19,6 @@ const magicLogin = new MagicLoginStrategy({
     cookie: { secure: true },
     callbackUrl: AUTH_CALLBACK,
     sendMagicLink: async (destination, href) => {
-        console.log('=====>', destination);
         try {
             const msg = {
                 to: destination,
