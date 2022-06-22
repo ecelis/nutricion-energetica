@@ -14,4 +14,4 @@ benchmarks/graphs
 # https://git-scm.com/docs/gitignore*.sqlite
 
 *.sqlite
-.env
+.env*
