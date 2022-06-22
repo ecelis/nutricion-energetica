@@ -50,6 +50,8 @@ nnpm run test
 ```
 az acr build --registry webhealthcoach --image api .
 ```
+
+```
 az acr update -n webhealthcoach --admin-enabled true
 ```
 
