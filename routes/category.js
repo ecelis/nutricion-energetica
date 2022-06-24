@@ -6,32 +6,31 @@ const passportOpts = require('../config/settings');
 
 const router = express.Router();
 
-// Ingredients
 router.post('/', passport.authenticate('magiclogin', passportOpts),
-    async function(req, res, next) {
-      const { Ingredient } = db.sequelize.models;
-      const {body} = req;
-      const data = await Ingredient.create(body);
-      res.send(data);
-    }
+  async function(req, res, next) {
+    const { Category } = db.sequelize.models;
+    const {body} = req;
+    const data = await Category.create(body);
+    res.send(data);
+  }
 );
 
-router.get('/', passport.authenticate('magiclogin', passportOpts),
+router.get('/',
   async function(req, res, next) {
-    const { Ingredient } = db.sequelize.models;
-    const data = await Ingredient.findAll({
+    const { Category } = db.sequelize.models;
+    const data = await Category.findAll({
       limit: 10
     });
     res.send(data);
   }
 );
 
-router.get('/:id',
+router.get('/:id', passport.authenticate('magiclogin', passportOpts),
   async function(req, res, next) {
+    const { Category } = db.sequelize.models;
     const {id} = req.params;
     const ids = id.split(',');
-    const { Ingredient } = db.sequelize.models;
-    const data = await Ingredient.findAll({
+    const data = await Category.findAll({
       where: {id: ids}
     });
     res.send(data);
