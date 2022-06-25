@@ -15,7 +15,7 @@ router.post('/', passport.authenticate('magiclogin', passportOpts),
   }
 );
 
-router.get('/',
+router.get('/', passport.authenticate('magiclogin', passportOpts),
   async function(req, res, next) {
     const { Category } = db.sequelize.models;
     const data = await Category.findAll({
