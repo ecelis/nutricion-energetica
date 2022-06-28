@@ -26,7 +26,7 @@ router.get('/', passport.authenticate('magiclogin', passportOpts),
   }
 );
 
-router.get('/:id',
+router.get('/:id',  passport.authenticate('magiclogin', passportOpts),
   async function(req, res, next) {
     const {id} = req.params;
     const ids = id.split(',');
@@ -37,5 +37,17 @@ router.get('/:id',
     res.send(data);
   }
 );
+
+router.get('/categories/:id',  passport.authenticate('magiclogin', passportOpts),
+  async function(req, res, next) {
+    const {id} = req.params;
+    const { Ingredient } = db.sequelize.models;
+    const data = await Ingredient.findAll({
+      where: {CategoryId: id.split(',')}
+    });
+    res.send(data);
+  }
+);
+
 
 module.exports = router;
