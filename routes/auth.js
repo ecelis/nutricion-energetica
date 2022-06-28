@@ -31,10 +31,13 @@ const magicLogin = new MagicLoginStrategy({
             await sendgrid.send(msg);
         } catch (error) {
             // TODO handle the error
-            console.log(error);
+            console.log("Can't send email", error);
         }
     },
     verify: async (payload, callback) => {
+        if (!payload.destination) {
+            return callback({error: 'Unauthorized'});
+        }
         try {
             const dbUser = await db.sequelize.models.User.findOne({
                 where: { email: payload.destination }

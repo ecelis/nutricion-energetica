@@ -1,22 +1,53 @@
 const express = require('express');
-const router = express.Router();
-const db = require('../models');
+const { Op } = require('sequelize');
 const passport = require('passport');
+const db = require('../models');
+const passportOpts = require('../config/settings');
 
-router.post('/', passport.authenticate('magiclogin', { session: false }),
+const router = express.Router();
+
+// Ingredients
+router.post('/', passport.authenticate('magiclogin', passportOpts),
     async function(req, res, next) {
       const { Ingredient } = db.sequelize.models;
-      const data = req.body;
-      const ingredient = await Ingredient.create(data);
-      res.send(ingredient);
+      const {body} = req;
+      const data = await Ingredient.create(body);
+      res.send(data);
     }
 );
 
-router.post('/category', async function(req, res, next) {
-    const { Category } = db.sequelize.models;
-    const data = req.body;
-    const category = await Category.create(data);
-    res.send(category);
-});
+router.get('/', passport.authenticate('magiclogin', passportOpts),
+  async function(req, res, next) {
+    const { Ingredient } = db.sequelize.models;
+    const data = await Ingredient.findAll({
+      limit: 10
+    });
+    res.send(data);
+  }
+);
+
+router.get('/:id',  passport.authenticate('magiclogin', passportOpts),
+  async function(req, res, next) {
+    const {id} = req.params;
+    const ids = id.split(',');
+    const { Ingredient } = db.sequelize.models;
+    const data = await Ingredient.findAll({
+      where: {id: ids}
+    });
+    res.send(data);
+  }
+);
+
+router.get('/categories/:id',  passport.authenticate('magiclogin', passportOpts),
+  async function(req, res, next) {
+    const {id} = req.params;
+    const { Ingredient } = db.sequelize.models;
+    const data = await Ingredient.findAll({
+      where: {CategoryId: id.split(',')}
+    });
+    res.send(data);
+  }
+);
+
 
 module.exports = router;
