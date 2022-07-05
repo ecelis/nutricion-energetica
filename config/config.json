@@ -1,14 +1,26 @@
 {
   "development": {
-    "storage": "database_development.sqlite",
-    "dialect": "sqlite"
+    "username": "whcuser",
+    "password": null,
+    "database": "whc_dev",
+    "host": "whcdb.postgres.database.azure.com",
+    "dialect": "postgres",
+    "dialectOptions": {"ssl": true}
   },
   "test": {
-    "storage": "database_test.sqlite",
-    "dialect": "sqlite"
+    "username": "whcuser",
+    "password": null,
+    "database": "whc_test",
+    "host": "whcdb.postgres.database.azure.com",
+    "dialect": "postgres",
+    "dialectOptions": {"ssl": true}
   },
   "production": {
-    "storage": "database_production.sqlite",
-    "dialect": "sqlite"
+    "username": "whcuser",
+    "password": null,
+    "database": "whc_prod",
+    "host": "whcdb.postgres.database.azure.com",
+    "dialect": "postgres",
+    "dialectOptions": {"ssl": true}
   }
 }

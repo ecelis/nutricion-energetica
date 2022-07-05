@@ -15,3 +15,4 @@ benchmarks/graphs
 
 *.sqlite
 .env*
+*.dump

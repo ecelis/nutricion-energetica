@@ -20,6 +20,12 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'RESTRICT',
         onUpdate: 'CASCADE'
       });
+      this.belongsToMany(models.MealType,
+        {
+          through: 'recipe_mealtypes',
+          onDelete: 'RESTRICT',
+          onUpdate: 'CASCADE'
+        });
     }
   }
   Recipe.init({
