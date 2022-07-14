@@ -32,6 +32,7 @@ router.post('/', passport.authenticate('magiclogin', passportOpts ),
     }
 );
 
+
 router.get('/mealtype/:id', passport.authenticate('magiclogin', passportOpts),
     async function(req, res, next) {
         const { Recipe, MealType } = db.sequelize.models;

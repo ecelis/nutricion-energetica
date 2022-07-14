@@ -8,6 +8,7 @@ var authRouter = require('./routes/auth');
 const categoryRouter = require('./routes/category');
 var ingredientRouter = require('./routes/ingredient');
 var mealTypeRouter = require('./routes/mealtype');
+var menuRouter = require('./routes/menu');
 var recipeRouter = require('./routes/recipe');
 var usersRouter = require('./routes/users');
 var app = express();
@@ -23,6 +24,7 @@ app.use('/', authRouter);
 app.use('/category', categoryRouter);
 app.use('/ingredient', ingredientRouter);
 app.use('/mealtype', mealTypeRouter);
+app.use('/menu', menuRouter);
 app.use('/recipe', recipeRouter);
 app.use('/users', usersRouter);
 
