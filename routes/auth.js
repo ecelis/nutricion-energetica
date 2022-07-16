@@ -16,6 +16,7 @@ sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 
 const magicLogin = new MagicLoginStrategy({
     secret: JWT_SECRET,
+    jsonWebTokenOptions: {maxAge: '1d'},
     cookie: { secure: true },
     callbackUrl: AUTH_CALLBACK,
     sendMagicLink: async (destination, href) => {
