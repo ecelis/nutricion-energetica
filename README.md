@@ -1,6 +1,8 @@
 # healthcoach API
 
-REST API for meals menu
+I started this project to dust off my JavaScript skills and learn [Sequelize](https://sequelize.org/) and 💅🏾[styled-components](https://styled-components.com/) in the process. Also as a showoff to potential employers while I was in the hunt for a new job.
+
+This is the RESTful API for [Web Health Coach](https://github.com/ecelis/healtcoach)
 
 ## Dependencies
 
@@ -8,12 +10,12 @@ Requires a Sendgrid account
 
 ## Develop
 
-### PostgreSQL
+Azure currently runs PostgreSQL 13.7
 
 ```
-docker run --name postgres -d -e POSTGRES_PASSWORD=1qaz \
-    -e POSTGRES_USER=whc  -e POSTGRES_DB=whc -p5432:5432 \
-    postgres
+docker run --name whcdb -d -e POSTGRES_PASSWORD=1qaz \
+    -e POSTGRES_USER=whc  -e POSTGRES_DB=whc_dev -p5432:5432 \
+    postgres:13.7-alpine
 ```
 
 Copy `cp env.sample .env` and edit `.env` with proper values.
