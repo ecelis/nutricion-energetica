@@ -16,3 +16,4 @@ benchmarks/graphs
 *.sqlite
 .env*
 *.dump
+config/config.json

@@ -18,6 +18,10 @@ docker run --name whcdb -d -e POSTGRES_PASSWORD=1qaz \
     postgres:13.7-alpine
 ```
 
+There are two config files, this is redundant and will be fixed in the near future.
+
+Copy `cp config/sample.config.json config/config.json` and edit `config/config.json` with proper values.
+
 Copy `cp env.sample .env` and edit `.env` with proper values.
 
 Install and run with `nodemon`

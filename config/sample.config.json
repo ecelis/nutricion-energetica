@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "<user>",
+    "password": null,
+    "database": "<db>",
+    "host": "localhost",
+    "dialect": "postgres",
+    "dialectOptions": {"ssl": false}
+  },
+  "test": {
+    "username": "<user>",
+    "password": null,
+    "database": "<db>",
+    "host": "localhost",
+    "dialect": "postgres",
+    "dialectOptions": {"ssl": false}
+  },
+  "production": {
+    "username": "<user>",
+    "password": null,
+    "database": "<db>",
+    "host": "<somedb>.postgres.database.azure.com",
+    "dialect": "postgres",
+    "dialectOptions": {"ssl": true}
+  }
+}
