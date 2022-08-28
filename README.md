@@ -2,7 +2,7 @@
 
 I started this project to dust off my JavaScript skills and learn [Sequelize](https://sequelize.org/) and 💅🏾[styled-components](https://styled-components.com/) in the process. Also as a showoff to potential employers while I was in the hunt for a new job.
 
-This is the RESTful API for [Web Health Coach](https://github.com/ecelis/healtcoach)
+This is the RESTful API for [Web Health Coach](https://github.com/ecelis/healtcoach).
 
 ## Dependencies
 
