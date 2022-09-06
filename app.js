@@ -12,7 +12,7 @@ var menuRouter = require('./routes/menu');
 var recipeRouter = require('./routes/recipe');
 var usersRouter = require('./routes/users');
 var app = express();
-if(process.env.NODE_ENV !== 'production') { app.use(cors({ origin: "http://localhost:3001", optionsSuccessStatus: 200 })); }
+app.use(cors({ origin: "*", optionsSuccessStatus: 200 }));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

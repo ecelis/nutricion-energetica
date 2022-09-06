@@ -10,11 +10,13 @@ Requires a Sendgrid account
 
 ## Develop
 
+### Docker
+
 Azure currently runs PostgreSQL 13.7
 
 ```
 docker run --name whcdb -d -e POSTGRES_PASSWORD=1qaz \
-    -e POSTGRES_USER=whc  -e POSTGRES_DB=whc_dev -p5432:5432 \
+    -e POSTGRES_USER=whc  -e POSTGRES_DB=whc_prod -p5432:5432 \
     postgres:13.7-alpine
 ```
 
@@ -24,7 +26,17 @@ Copy `cp config/sample.config.json config/config.json` and edit `config/config.j
 
 Copy `cp env.sample .env` and edit `.env` with proper values.
 
-Install and run with `nodemon`
+```
+docker build -t whcapi .
+```
+
+#### Docker run
+
+```
+docker run -d --name whcapi -p 3000:3000 --env-file=.env.docker --link whcdb whcapi
+```
+
+### Install and run with `nodemon`
 
 ```
 npm install -g nodemon
