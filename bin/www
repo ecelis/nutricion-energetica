@@ -16,7 +16,7 @@ const db = require('../models');
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-db.sequelize.sync({ force: false })
+db.sequelize()
     .then(() => { /* console.log('DB ready'); */ })
     .catch(error => { console.log('DB error', error); });
 
