@@ -16,7 +16,8 @@ module.exports = {
     "dialect": "postgres",
     "dialectOptions": {
       "ssl": false
-    }
+    },
+    "logging": true
   },
   "test": {
     "username": POSTGRES_USER,

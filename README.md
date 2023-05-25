@@ -10,6 +10,14 @@ Requires a Sendgrid account
 
 ## Develop
 
+### Environment setup
+
+There are two config files, this is redundant and will be fixed in the near future.
+
+Copy `cp config/sample.config.json config/config.json` and edit `config/config.json` with proper values.
+
+Copy `cp env.sample .env.local` and edit `.env.local` with proper values.
+
 ### Docker
 
 Azure currently runs PostgreSQL 13.7
@@ -18,20 +26,20 @@ Azure currently runs PostgreSQL 13.7
 docker compose up -d
 ```
 
-There are two config files, this is redundant and will be fixed in the near future.
-
-Copy `cp config/sample.config.json config/config.json` and edit `config/config.json` with proper values.
-
-Copy `cp env.sample .env.local` and edit `.env.local` with proper values.
-
 ```
 docker build -t whcapi .
 ```
 
-#### Docker run
+### Migrate
 
 ```
-docker run -d --name whcapi -p 3000:3000 --env-file=.env.docker --link whcdb whcapi
+npm run migrate
+```
+
+To undo all migrations
+
+```
+npm run migrate:undo
 ```
 
 ### Install and run with `nodemon`
@@ -43,16 +51,12 @@ nodemon
 
 ## Test
 
-Run test environment
-
-```
-npm run test-env
-```
+Run test environment first
 
 Execute tests
 
 ```
-nnpm run test
+npm run test
 ```
 
 ## Clean and import food data
@@ -87,9 +91,16 @@ Create task to deploy container when new images are published in the registry.
     --file Dockerfile --git-access-token <github personla token>
 ```
 
-### PostgreSQL
+### Garbage
+
+```
+docker run -d --name whcapi -p 3000:3000 --env-file=.env.docker --link whcdb whcapi
+```
 
 ```
 psql "host=<somedb>.postgres.database.azure.com port=5432 \
     dbname=<db> user=<user> password=<passwoord> sslmode=require"
+```
+```
+psql -Uwhcuser -dwhc_dev
 ```
