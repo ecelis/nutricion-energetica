@@ -15,16 +15,14 @@ Requires a Sendgrid account
 Azure currently runs PostgreSQL 13.7
 
 ```
-docker run --name whcdb -d -e POSTGRES_PASSWORD=1qaz \
-    -e POSTGRES_USER=whc  -e POSTGRES_DB=whc_prod -p5432:5432 \
-    postgres:13.7-alpine
+docker compose up -d
 ```
 
 There are two config files, this is redundant and will be fixed in the near future.
 
 Copy `cp config/sample.config.json config/config.json` and edit `config/config.json` with proper values.
 
-Copy `cp env.sample .env` and edit `.env` with proper values.
+Copy `cp env.sample .env.local` and edit `.env.local` with proper values.
 
 ```
 docker build -t whcapi .
